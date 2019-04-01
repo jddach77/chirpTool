@@ -8,12 +8,17 @@ import {messages} from "../actions";
 class ChatBuilder extends Component {
 
   state = {
-    text: "",
+    messageType: '',
+    text: '',
     updateMessageId: null,
   }
 
   resetForm = () => {
-    this.setState({text: "", updateMessageId: null});
+    this.setState({
+      messageType: '',
+      text: '',
+      updateMessageId: null
+    });
   }
 
   selectForEdit = (id) => {
@@ -24,10 +29,14 @@ class ChatBuilder extends Component {
   submitMessage = (e) => {
     e.preventDefault();
     if (this.state.updateMessageId === null) {
-      this.props.addMessage(this.state.text).then(this.resetForm);
+      this.props.addMessage(this.state.messageType, this.state.text).then(this.resetForm);
     } else {
       this.props.updateMessage(this.state.updateMessageId, this.state.text).then(this.resetForm);
     }
+  }
+
+  handleTypeSwitch = (type) => {
+    this.setState({messageType: type});
   }
 
   componentDidMount() {
@@ -41,13 +50,13 @@ class ChatBuilder extends Component {
       <hr />
       <h3>Add new message</h3>
         <form onSubmit={this.submitMessage}>
-        <MessageType />
+        <MessageType onTypeSwitch={this.handleTypeSwitch}/>
           <textarea
             value={this.state.text}
             placeholder="Enter text here..."
             onChange={(e) => this.setState({text: e.target.value})}
             required />
-          <input type="submit" value="Save Message" />
+          <input type="submit" value="Save" />
           <button onClick={this.resetForm}>Reset</button>
         </form>
       <h3>Messages</h3>
@@ -75,8 +84,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addMessage: (text) => {
-      return dispatch(messages.addMessage(text));
+    addMessage: (messageType, text) => {
+      return dispatch(messages.addMessage(messageType, text));
     },
     updateMessage: (id, text) => {
       return dispatch(messages.updateMessage(id, text));

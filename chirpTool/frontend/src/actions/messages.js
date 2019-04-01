@@ -1,15 +1,16 @@
-export const addMessage = text => {
+export const addMessage = (text, messageType) => {
   return dispatch => {
 
     let headers = {"Content-Type": "application/json"};
-    let body = JSON.stringify({text, });
+    let body = JSON.stringify({text, messageType});
 
     return fetch("/api/messages/", {headers, method: "POST", body})
       .then(res => res.json())
       .then(message => {
         return dispatch({
           type: 'ADD_MESSAGE',
-          message
+          message,
+          messageType
         })
       })
   }
