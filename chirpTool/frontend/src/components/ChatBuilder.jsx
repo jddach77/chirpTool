@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import MessageType from './MessageType'
+import Message from './Message'
 
 import {messages} from "../actions";
 
@@ -15,7 +15,6 @@ class ChatBuilder extends Component {
 
   constructor(props) {
     super(props);
-
     this.handleTypeSwitch = this.handleTypeSwitch.bind(this);
   }
 
@@ -49,6 +48,7 @@ class ChatBuilder extends Component {
 
   handleTypeSwitch = (type) => {
     this.setState({messageType: type});
+    console.log(this.state);
   }
 
   componentDidMount() {
@@ -62,14 +62,15 @@ class ChatBuilder extends Component {
       <hr />
       <h3>Add new message</h3>
         <form onSubmit={this.submitMessage}>
-        <MessageType messageTypes={messageTypes} onTypeSwitch={this.handleTypeSwitch}/>
-          <textarea
-            value={this.state.text}
-            placeholder="Enter text here..."
-            onChange={(e) => this.setState({text: e.target.value})}
-            required />
-          <input type="submit" value="Save" />
-          <button onClick={this.resetForm}>Reset</button>
+          <select
+          value={this.props.messageType}
+          onChange={(e) => this.handleTypeSwitch(e.target.value)
+          }>
+          {messageTypes.map((messageType, index) =>
+            <option key={index} value={messageType}>{messageType}</option>
+          )}
+          </select>
+        <Message messageType={this.state.messageType}/>
         </form>
       <h3>Messages</h3>
           <table>
