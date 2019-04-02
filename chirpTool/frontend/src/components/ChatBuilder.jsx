@@ -4,6 +4,12 @@ import MessageType from './MessageType'
 
 import {messages} from "../actions";
 
+const messageTypes = [
+  'text',
+  'image',
+  'link',
+  'dropdown',
+]
 
 class ChatBuilder extends Component {
 
@@ -56,7 +62,7 @@ class ChatBuilder extends Component {
       <hr />
       <h3>Add new message</h3>
         <form onSubmit={this.submitMessage}>
-        <MessageType onTypeSwitch={this.handleTypeSwitch}/>
+        <MessageType messageTypes={messageTypes} onTypeSwitch={this.handleTypeSwitch}/>
           <textarea
             value={this.state.text}
             placeholder="Enter text here..."
