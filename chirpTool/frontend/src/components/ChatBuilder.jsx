@@ -7,6 +7,12 @@ import {messages} from "../actions";
 
 class ChatBuilder extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.handleTypeSwitch = this.handleTypeSwitch.bind(this);
+  }
+
   state = {
     messageType: '',
     text: '',
