@@ -9,11 +9,16 @@ const steps = [
   },
   {
     id: '1',
-    message: 'I love Kata',
-    trigger: '2'
+    user: true,
+    trigger: '2',
   },
   {
     id: '2',
+    message: 'I love Kata',
+    trigger: '3'
+  },
+  {
+    id: '3',
     message: 'Bye!',
     end: true,
   },
