@@ -41,7 +41,7 @@ class ChatBuilder extends Component {
   submitMessage = (e) => {
     e.preventDefault();
     if (this.state.updateMessageId === null) {
-      this.props.addMessage(this.state.messageType, this.state.text).then(this.resetForm);
+      this.props.addMessage(this.state.text, this.state.messageType).then(this.resetForm);
     } else {
       this.props.updateMessage(this.state.updateMessageId, this.state.text).then(this.resetForm);
     }
