@@ -5,6 +5,9 @@ import Message from './Message'
 import {messages} from "../actions";
 
 const messageTypes = [
+  'sector',
+  'function',
+  'seniority',
   'text',
   'image',
   'link',
@@ -33,6 +36,7 @@ class ChatBuilder extends Component {
   }
 
   selectForEdit = (id) => {
+    console.log(id);
     let message = this.props.messages[id];
     this.setState({text: message.text, updateMessageId: id});
   }
@@ -49,6 +53,10 @@ class ChatBuilder extends Component {
   handleTypeSwitch = (type) => {
     this.setState({messageType: type});
     console.log(this.state);
+  }
+
+  handleTextMessage = (val) => {
+    this.setState({text: val})
   }
 
   componentDidMount() {
@@ -70,13 +78,17 @@ class ChatBuilder extends Component {
             <option key={index} value={messageType}>{messageType}</option>
           )}
           </select>
-        <Message messageType={this.state.messageType}/>
+        <Message
+          messageType={this.state.messageType}
+          handleTextMessage={this.handleTextMessage}
+        />
         </form>
       <h3>Messages</h3>
           <table>
             <tbody>
               {this.props.messages.map((message, id) => (
                 <tr key={`message_${id}`}>
+                  <td>{message.id}</td>
                   <td>{message.text}</td>
                   <td><button onClick={() => this.selectForEdit(id)}>edit</button></td>
                   <td><button onClick={() => this.props.deleteMessage(id)}>delete</button></td>
