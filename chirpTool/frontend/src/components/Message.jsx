@@ -7,6 +7,22 @@ class Message extends Component {
     this.props.handleTextMessage(this.refs.newText.value)
   }
 
+  sectorMessage = () => {
+    this.props.handleTextMessage(this.refs.newSector.value)
+  }
+
+  functionMessage = () => {
+    this.props.handleTextMessage(this.refs.newFunction.value)
+  }
+
+  seniorityMessage = () => {
+    this.props.handleTextMessage(this.refs.newSeniority.value)
+  }
+
+  urlMessage = () => {
+    this.props.handleHyperlink(this.refs.newHyperlink.value, this.refs.newUrl.value)
+  }
+
   renderSwitch(messageType) {
     switch (messageType) {
       case 'sector':
@@ -14,9 +30,9 @@ class Message extends Component {
           <div>
             <p>
             Sector question:
-            <input type="text" id={messageType} />
+            <input ref="newSector" type="text" id={messageType} />
             </p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save" onClick={this.sectorMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -25,9 +41,9 @@ class Message extends Component {
           <div>
             <p>
             Function question:
-            <input type="text" id={messageType} />
+            <input ref="newFunction" type="text" id={messageType} />
             </p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save" onClick={this.functionMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -36,9 +52,9 @@ class Message extends Component {
           <div>
             <p>
             seniority question:
-            <input type="text" id={messageType} />
+            <input ref="newSeniority" type="text" id={messageType} />
             </p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save" onClick={this.seniorityMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -51,7 +67,7 @@ class Message extends Component {
               placeholder="Enter text here..."
               required />
             </p>
-            <input type="submit" value="Save" onClick={this.textMessage}/>
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -60,11 +76,11 @@ class Message extends Component {
           <div>
             <p>
             URL:
-            <input type="text" id={messageType} />
+            <input ref="newUrl" type="text" id={messageType} />
             Text:
-            <input onChange={(e) => this.setState({text: e.target.value})} type="text" id="text" />
+            <input ref="newHyperlink" type="text" />
             </p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save" onClick={this.urlMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );

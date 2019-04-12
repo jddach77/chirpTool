@@ -24,6 +24,7 @@ class ChatBuilder extends Component {
   state = {
     messageType: '',
     text: '',
+    url: '',
     updateMessageId: null,
   }
 
@@ -31,6 +32,7 @@ class ChatBuilder extends Component {
     this.setState({
       messageType: '',
       text: '',
+      url: '',
       updateMessageId: null
     });
   }
@@ -59,6 +61,14 @@ class ChatBuilder extends Component {
     this.setState({text: val})
   }
 
+  handleHyperlink = (text, link) => {
+    this.setState({
+      text: text,
+      url: link
+    })
+    console.log(this.state);
+  }
+
   componentDidMount() {
     this.props.fetchMessages();
   }
@@ -81,6 +91,7 @@ class ChatBuilder extends Component {
         <Message
           messageType={this.state.messageType}
           handleTextMessage={this.handleTextMessage}
+          handleHyperlink={this.handleHyperlink}
         />
         </form>
       <h3>Messages</h3>
