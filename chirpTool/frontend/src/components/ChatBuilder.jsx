@@ -5,10 +5,10 @@ import Message from './Message'
 import {messages} from "../actions";
 
 const messageTypes = [
+  'text',
   'sector',
   'function',
   'seniority',
-  'text',
   'image',
   'link',
   'choices',
@@ -22,7 +22,7 @@ class ChatBuilder extends Component {
   }
 
   state = {
-    messageType: '',
+    messageType: 'text',
     text: '',
     secondaryText: '',
     updateMessageId: null,
