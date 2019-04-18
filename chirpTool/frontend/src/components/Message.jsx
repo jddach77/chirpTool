@@ -3,24 +3,23 @@ import React, { Component } from 'react';
 
 class Message extends Component {
 
+  resetForm = () => {
+    this.props.resetForm();
+  }
   textMessage = () => {
     this.props.handleTextMessage(this.refs.newText.value)
   }
-
   sectorMessage = () => {
     this.props.handleTextMessage(this.refs.newSector.value)
   }
-
   functionMessage = () => {
     this.props.handleTextMessage(this.refs.newFunction.value)
   }
-
   seniorityMessage = () => {
     this.props.handleTextMessage(this.refs.newSeniority.value)
   }
-
-  urlMessage = () => {
-    this.props.handleHyperlink(this.refs.newHyperlink.value, this.refs.newUrl.value)
+  dualMessage = () => {
+    this.props.handleDualMessage(this.refs.newText.value, this.refs.secondaryText.value)
   }
 
   renderSwitch(messageType) {
@@ -76,11 +75,24 @@ class Message extends Component {
           <div>
             <p>
             URL:
-            <input ref="newUrl" type="text" id={messageType} />
+            <input ref="secondaryText" type="text" id={messageType} />
             Text:
-            <input ref="newHyperlink" type="text" />
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" onClick={this.urlMessage} />
+            <input type="submit" value="Save" onClick={this.dualMessage} />
+            <button onClick={this.resetForm}>Reset</button>
+          </div>
+        );
+      case 'image':
+        return (
+          <div>
+            <p>
+            Image URL:
+            <input ref="secondaryText" type="text" id={messageType} />
+            Alt Text:
+            <input ref="newText" type="text" />
+            </p>
+            <input type="submit" value="Save" onClick={this.dualMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
