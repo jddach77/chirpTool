@@ -11,4 +11,4 @@ class MessageViewSet(viewsets.ModelViewSet):
 class ScriptViewSet(viewsets.ModelViewSet):
     queryset = Script.objects.all()
     permission_classes = [permissions.AllowAny, ]
-    serializer_class = ScriptSerializer
+    serializer_class = ScriptSerializer(queryset, many=True)
