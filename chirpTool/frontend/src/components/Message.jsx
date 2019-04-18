@@ -9,15 +9,6 @@ class Message extends Component {
   textMessage = () => {
     this.props.handleTextMessage(this.refs.newText.value)
   }
-  sectorMessage = () => {
-    this.props.handleTextMessage(this.refs.newSector.value)
-  }
-  functionMessage = () => {
-    this.props.handleTextMessage(this.refs.newFunction.value)
-  }
-  seniorityMessage = () => {
-    this.props.handleTextMessage(this.refs.newSeniority.value)
-  }
   dualMessage = () => {
     this.props.handleDualMessage(this.refs.newText.value, this.refs.secondaryText.value)
   }
@@ -29,9 +20,9 @@ class Message extends Component {
           <div>
             <p>
             Sector question:
-            <input ref="newSector" type="text" />
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" onClick={this.sectorMessage} />
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -40,9 +31,9 @@ class Message extends Component {
           <div>
             <p>
             Function question:
-            <input ref="newFunction" type="text" />
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" onClick={this.functionMessage} />
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -51,9 +42,9 @@ class Message extends Component {
           <div>
             <p>
             seniority question:
-            <input ref="newSeniority" type="text" />
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" onClick={this.seniorityMessage} />
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
