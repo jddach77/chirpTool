@@ -11,4 +11,12 @@ class MessageViewSet(viewsets.ModelViewSet):
 class ScriptViewSet(viewsets.ModelViewSet):
     queryset = Script.objects.all()
     permission_classes = [permissions.AllowAny, ]
-    serializer_class = ScriptSerializer(queryset, many=True)
+    serializer_class = ScriptSerializer
+    def get_serializer(self, *args, **kwargs):
+        if "data" in kwargs:
+            data = kwargs["data"]
+
+            if isinstance(data, list):
+                kwargs["many"] = True
+
+        return super(ScriptViewSet, self).get_serializer(*args, **kwargs)

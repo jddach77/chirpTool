@@ -8,6 +8,7 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = ('id', 'text', 'secondaryText', 'messageType', )
 
 class ScriptSerializer(serializers.ModelSerializer):
+    json_data = serializers.JSONField()
     class Meta:
         model = Script
         fields = ('id', 'json_data', )
