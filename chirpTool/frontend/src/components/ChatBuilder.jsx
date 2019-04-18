@@ -37,6 +37,11 @@ class ChatBuilder extends Component {
     });
   }
 
+  generateScript = (messages) => {
+    console.log(messages);
+    this.props.generateScript(messages)
+  }
+
   selectForEdit = (id) => {
     let message = this.props.messages[id];
     this.handleTypeSwitch(message.messageType);
@@ -124,6 +129,7 @@ class ChatBuilder extends Component {
               ))}
             </tbody>
           </table>
+          <button onClick={() => this.generateScript(this.props.messages)}>Generate Script</button>
       </div>
     )
   }
@@ -154,6 +160,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchMessages: () => {
       dispatch(messages.fetchMessages());
+    },
+    generateScript: (script) => {
+      return dispatch(messages.generateScript(script))
     },
   }
 }

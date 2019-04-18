@@ -1,4 +1,5 @@
 from django.db import models
+from jsonfield import JSONField
 
 # Create your models here.
 class Message(models.Model):
@@ -9,3 +10,6 @@ class Message(models.Model):
 
     def __str__(self):
         return self.text
+
+class Script(models.Model):
+    json_data = JSONField()
