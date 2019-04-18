@@ -45,19 +45,21 @@ class ChatBuilder extends Component {
 
   submitMessage = (e) => {
     e.preventDefault();
-    if (this.state.messageType === 'link' || 'image') {
-      this.props.addDualMessage(this.state.text, this.state.secondaryText, this.state.messageType)
-    }
-    else if (this.state.updateMessageId === null) {
-      this.props.addMessage(this.state.text, this.state.messageType).then(this.resetForm);
+    if (this.state.updateMessageId === null) {
+      if (this.state.messageType === 'link' || 'image') {
+        this.props.addDualMessage(this.state.text, this.state.secondaryText, this.state.messageType).then(this.resetForm);
+      } else {
+        this.props.addMessage(this.state.text, this.state.messageType).then(this.resetForm);
+      }
+    } else if (this.state.messageType === 'link' || 'image') {
+        this.props.updateDualMessage(this.state.updateMessageId, this.state.text, this.state.secondaryText).then(this.resetForm);
     } else {
-      this.props.updateMessage(this.state.updateMessageId, this.state.text).then(this.resetForm);
+        this.props.updateMessage(this.state.updateMessageId, this.state.text).then(this.resetForm);
     }
   }
 
   handleTypeSwitch = (type) => {
     this.setState({messageType: type});
-    console.log(this.state);
   }
 
   handleTextMessage = (val) => {
@@ -132,6 +134,9 @@ const mapDispatchToProps = dispatch => {
     },
     updateMessage: (id, text) => {
       return dispatch(messages.updateMessage(id, text));
+    },
+    updateDualMessage: (id, text, secondaryText) => {
+      return dispatch(messages.updateMessage(id, text, secondaryText));
     },
     deleteMessage: (id) => {
       dispatch(messages.deleteMessage(id));
