@@ -91,7 +91,7 @@ export const generateScript = (json_data) => {
   return dispatch => {
 
     let headers = {"Content-Type": "application/json"};
-    let body = {json_data};
+    let body = JSON.stringify(json_data);
 
     return fetch("/api/scripts/", {headers, method: "POST", body})
       .then(res => res.text())
