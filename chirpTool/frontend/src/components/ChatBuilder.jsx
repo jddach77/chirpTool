@@ -11,7 +11,7 @@ const messageTypes = [
   'text',
   'image',
   'link',
-  'dropdown',
+  'choices',
 ]
 
 class ChatBuilder extends Component {
@@ -24,7 +24,7 @@ class ChatBuilder extends Component {
   state = {
     messageType: '',
     text: '',
-    url: '',
+    secondaryText: '',
     updateMessageId: null,
   }
 
@@ -32,14 +32,17 @@ class ChatBuilder extends Component {
     this.setState({
       messageType: '',
       text: '',
-      url: '',
+      secondaryText: '',
       updateMessageId: null
     });
   }
 
   selectForEdit = (id) => {
-    console.log(id);
     let message = this.props.messages[id];
+    this.handleTypeSwitch(message.messageType);
+    if (message.messageType === 'link' || 'image') {
+      this.setState({text: message.text, secondaryText: message.secondaryText, updateMessageId: id})
+    }
     this.setState({text: message.text, updateMessageId: id});
   }
 
@@ -103,10 +106,18 @@ class ChatBuilder extends Component {
       <h3>Messages</h3>
           <table>
             <tbody>
+              <tr>
+                <th>ID</th>
+                <th>Message Type</th>
+                <th>Text</th>
+                <th>Secondary Text</th>
+              </tr>
               {this.props.messages.map((message, id) => (
-                <tr key={`message_${id}`}>
+                <tr key={`message_${id}`} >
                   <td>{message.id}</td>
+                  <td>{message.messageType}</td>
                   <td>{message.text}</td>
+                  <td>{message.secondaryText}</td>
                   <td><button onClick={() => this.selectForEdit(id)}>edit</button></td>
                   <td><button onClick={() => this.props.deleteMessage(id)}>delete</button></td>
                 </tr>

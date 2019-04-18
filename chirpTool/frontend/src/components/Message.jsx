@@ -29,7 +29,7 @@ class Message extends Component {
           <div>
             <p>
             Sector question:
-            <input ref="newSector" type="text" id={messageType} />
+            <input ref="newSector" type="text" />
             </p>
             <input type="submit" value="Save" onClick={this.sectorMessage} />
             <button onClick={this.resetForm}>Reset</button>
@@ -40,7 +40,7 @@ class Message extends Component {
           <div>
             <p>
             Function question:
-            <input ref="newFunction" type="text" id={messageType} />
+            <input ref="newFunction" type="text" />
             </p>
             <input type="submit" value="Save" onClick={this.functionMessage} />
             <button onClick={this.resetForm}>Reset</button>
@@ -51,7 +51,7 @@ class Message extends Component {
           <div>
             <p>
             seniority question:
-            <input ref="newSeniority" type="text" id={messageType} />
+            <input ref="newSeniority" type="text" />
             </p>
             <input type="submit" value="Save" onClick={this.seniorityMessage} />
             <button onClick={this.resetForm}>Reset</button>
@@ -75,7 +75,7 @@ class Message extends Component {
           <div>
             <p>
             URL:
-            <input ref="secondaryText" type="text" id={messageType} />
+            <input ref="secondaryText" type="text" />
             Text:
             <input ref="newText" type="text" />
             </p>
@@ -88,7 +88,7 @@ class Message extends Component {
           <div>
             <p>
             Image URL:
-            <input ref="secondaryText" type="text" id={messageType} />
+            <input ref="secondaryText" type="text" />
             Alt Text:
             <input ref="newText" type="text" />
             </p>
@@ -96,16 +96,17 @@ class Message extends Component {
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
-      case 'dropdown':
+      case 'choices':
         return (
           <div>
             <p>
-            URL:
-            <input type="text" id={messageType} />
-            Text:
-            <input type="text" id="text" />
+            Choices (comma-separated)
             </p>
-            <input type="submit" value="Save" />
+            <textarea
+              ref="newText"
+              placeholder="E.g. Apples, Bananas, Oranges"
+              required />
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
