@@ -11,7 +11,7 @@ const messageTypes = [
   'text',
   'image',
   'link',
-  'dropdown',
+  'choices',
 ]
 
 class ChatBuilder extends Component {
@@ -24,7 +24,7 @@ class ChatBuilder extends Component {
   state = {
     messageType: '',
     text: '',
-    url: '',
+    secondaryText: '',
     updateMessageId: null,
   }
 
@@ -32,39 +32,47 @@ class ChatBuilder extends Component {
     this.setState({
       messageType: '',
       text: '',
-      url: '',
+      secondaryText: '',
       updateMessageId: null
     });
   }
 
   selectForEdit = (id) => {
-    console.log(id);
     let message = this.props.messages[id];
+    this.handleTypeSwitch(message.messageType);
+    if (message.messageType === 'link' || 'image') {
+      this.setState({text: message.text, secondaryText: message.secondaryText, updateMessageId: id})
+    }
     this.setState({text: message.text, updateMessageId: id});
   }
 
   submitMessage = (e) => {
     e.preventDefault();
     if (this.state.updateMessageId === null) {
-      this.props.addMessage(this.state.text, this.state.messageType).then(this.resetForm);
+      if (this.state.messageType === 'link' || 'image') {
+        this.props.addDualMessage(this.state.text, this.state.secondaryText, this.state.messageType).then(this.resetForm);
+      } else {
+        this.props.addMessage(this.state.text, this.state.messageType).then(this.resetForm);
+      }
+    } else if (this.state.messageType === 'link' || 'image') {
+        this.props.updateDualMessage(this.state.updateMessageId, this.state.text, this.state.secondaryText).then(this.resetForm);
     } else {
-      this.props.updateMessage(this.state.updateMessageId, this.state.text).then(this.resetForm);
+        this.props.updateMessage(this.state.updateMessageId, this.state.text).then(this.resetForm);
     }
   }
 
   handleTypeSwitch = (type) => {
     this.setState({messageType: type});
-    console.log(this.state);
   }
 
   handleTextMessage = (val) => {
     this.setState({text: val})
   }
 
-  handleHyperlink = (text, link) => {
+  handleDualMessage = (text, secondaryText) => {
     this.setState({
       text: text,
-      url: link
+      secondaryText: secondaryText,
     })
     console.log(this.state);
   }
@@ -91,16 +99,25 @@ class ChatBuilder extends Component {
         <Message
           messageType={this.state.messageType}
           handleTextMessage={this.handleTextMessage}
-          handleHyperlink={this.handleHyperlink}
+          handleDualMessage={this.handleDualMessage}
+          resetForm={this.resetForm}
         />
         </form>
       <h3>Messages</h3>
           <table>
             <tbody>
+              <tr>
+                <th>ID</th>
+                <th>Message Type</th>
+                <th>Text</th>
+                <th>Secondary Text</th>
+              </tr>
               {this.props.messages.map((message, id) => (
-                <tr key={`message_${id}`}>
+                <tr key={`message_${id}`} >
                   <td>{message.id}</td>
+                  <td>{message.messageType}</td>
                   <td>{message.text}</td>
+                  <td>{message.secondaryText}</td>
                   <td><button onClick={() => this.selectForEdit(id)}>edit</button></td>
                   <td><button onClick={() => this.props.deleteMessage(id)}>delete</button></td>
                 </tr>
@@ -123,8 +140,14 @@ const mapDispatchToProps = dispatch => {
     addMessage: (messageType, text) => {
       return dispatch(messages.addMessage(messageType, text));
     },
+    addDualMessage: (messageType, text, secondaryText) => {
+      return dispatch(messages.addDualMessage(messageType, text, secondaryText))
+    },
     updateMessage: (id, text) => {
       return dispatch(messages.updateMessage(id, text));
+    },
+    updateDualMessage: (id, text, secondaryText) => {
+      return dispatch(messages.updateMessage(id, text, secondaryText));
     },
     deleteMessage: (id) => {
       dispatch(messages.deleteMessage(id));

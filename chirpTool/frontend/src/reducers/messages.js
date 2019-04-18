@@ -8,6 +8,9 @@ export default function messages(state=initialState, action) {
     case 'ADD_MESSAGE':
       return [...state, action.message];
 
+    case 'ADD_DUAL_MESSAGE':
+      return [...state, action.message];
+
     case 'UPDATE_MESSAGE':
       let messageToUpdate = messageList[action.index]
       messageToUpdate.text = action.message.text;

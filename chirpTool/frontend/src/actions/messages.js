@@ -16,6 +16,24 @@ export const addMessage = (text, messageType) => {
   }
 }
 
+export const addDualMessage = (text, secondaryText, messageType) => {
+  return dispatch => {
+
+    let headers = {"Content-Type": "application/json"};
+    let body = JSON.stringify({text, secondaryText, messageType});
+
+    return fetch("/api/messages/", {headers, method: "POST", body})
+      .then(res => res.json())
+      .then(message => {
+        return dispatch({
+          type: 'ADD_DUAL_MESSAGE',
+          message,
+          messageType
+        })
+      })
+  }
+}
+
 export const updateMessage = (index, text) => {
   return (dispatch, getState) => {
 

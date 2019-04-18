@@ -3,24 +3,14 @@ import React, { Component } from 'react';
 
 class Message extends Component {
 
+  resetForm = () => {
+    this.props.resetForm();
+  }
   textMessage = () => {
     this.props.handleTextMessage(this.refs.newText.value)
   }
-
-  sectorMessage = () => {
-    this.props.handleTextMessage(this.refs.newSector.value)
-  }
-
-  functionMessage = () => {
-    this.props.handleTextMessage(this.refs.newFunction.value)
-  }
-
-  seniorityMessage = () => {
-    this.props.handleTextMessage(this.refs.newSeniority.value)
-  }
-
-  urlMessage = () => {
-    this.props.handleHyperlink(this.refs.newHyperlink.value, this.refs.newUrl.value)
+  dualMessage = () => {
+    this.props.handleDualMessage(this.refs.newText.value, this.refs.secondaryText.value)
   }
 
   renderSwitch(messageType) {
@@ -30,9 +20,9 @@ class Message extends Component {
           <div>
             <p>
             Sector question:
-            <input ref="newSector" type="text" id={messageType} />
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" onClick={this.sectorMessage} />
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -41,9 +31,9 @@ class Message extends Component {
           <div>
             <p>
             Function question:
-            <input ref="newFunction" type="text" id={messageType} />
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" onClick={this.functionMessage} />
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -52,9 +42,9 @@ class Message extends Component {
           <div>
             <p>
             seniority question:
-            <input ref="newSeniority" type="text" id={messageType} />
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" onClick={this.seniorityMessage} />
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
@@ -76,24 +66,38 @@ class Message extends Component {
           <div>
             <p>
             URL:
-            <input ref="newUrl" type="text" id={messageType} />
+            <input ref="secondaryText" type="text" />
             Text:
-            <input ref="newHyperlink" type="text" />
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" onClick={this.urlMessage} />
+            <input type="submit" value="Save" onClick={this.dualMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
-      case 'dropdown':
+      case 'image':
         return (
           <div>
             <p>
-            URL:
-            <input type="text" id={messageType} />
-            Text:
-            <input type="text" id="text" />
+            Image URL:
+            <input ref="secondaryText" type="text" />
+            Alt Text:
+            <input ref="newText" type="text" />
             </p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save" onClick={this.dualMessage} />
+            <button onClick={this.resetForm}>Reset</button>
+          </div>
+        );
+      case 'choices':
+        return (
+          <div>
+            <p>
+            Choices (comma-separated)
+            </p>
+            <textarea
+              ref="newText"
+              placeholder="E.g. Apples, Bananas, Oranges"
+              required />
+            <input type="submit" value="Save" onClick={this.textMessage} />
             <button onClick={this.resetForm}>Reset</button>
           </div>
         );
