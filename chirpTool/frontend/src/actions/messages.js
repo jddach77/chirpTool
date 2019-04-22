@@ -1,8 +1,8 @@
-export const addMessage = (text, messageType) => {
+export const addMessage = (message, messageType) => {
   return dispatch => {
 
     let headers = {"Content-Type": "application/json"};
-    let body = JSON.stringify({text, messageType});
+    let body = JSON.stringify({message, messageType});
 
     return fetch("/api/messages/", {headers, method: "POST", body})
       .then(res => res.json())
@@ -16,11 +16,11 @@ export const addMessage = (text, messageType) => {
   }
 }
 
-export const addDualMessage = (text, secondaryText, messageType) => {
+export const addDualMessage = (message, secondaryText, messageType) => {
   return dispatch => {
 
     let headers = {"Content-Type": "application/json"};
-    let body = JSON.stringify({text, secondaryText, messageType});
+    let body = JSON.stringify({message, secondaryText, messageType});
 
     return fetch("/api/messages/", {headers, method: "POST", body})
       .then(res => res.json())
@@ -34,11 +34,11 @@ export const addDualMessage = (text, secondaryText, messageType) => {
   }
 }
 
-export const updateMessage = (index, text) => {
+export const updateMessage = (index, message) => {
   return (dispatch, getState) => {
 
     let headers = {"Content-Type": "application/json"};
-    let body = JSON.stringify({text, });
+    let body = JSON.stringify({message, });
     let messageId = getState().messages[index].id;
 
     return fetch(`/api/messages/${messageId}/`, {headers, method: "PUT", body})
@@ -94,7 +94,5 @@ export const generateScript = (json_data) => {
     let body = JSON.stringify({json_data});
 
     return fetch("/api/scripts/", {headers, method: "POST", body})
-      .then(res => res.text())
-      .then(text => console.log(text))
   }
 }

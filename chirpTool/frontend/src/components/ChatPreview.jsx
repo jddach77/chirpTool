@@ -1,33 +1,22 @@
 import React, { Component } from 'react';
 import ChatBot from 'react-simple-chatbot';
 
-const steps = [
-  {
-    id: '0',
-    message: 'Welcome to react chatbot!',
-    trigger: '1',
-  },
-  {
-    id: '1',
-    user: true,
-    trigger: '2',
-  },
-  {
-    id: '2',
-    message: 'I love Kata',
-    trigger: '3'
-  },
-  {
-    id: '3',
-    message: 'Bye!',
-    end: true,
-  },
-];
-
 class ChatPreview extends Component {
+
+  constructor(props) {
+    super(props);
+    let headers = {"Content-Type": "application/json"};
+    fetch("/api/scripts/", {headers, method: "GET"})
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ steps: data[data.length - 1].json_data });}
+      ).catch(error => console.error(error))
+  }
+
   render() {
     return(
-      <ChatBot steps={steps} />
+      this.state && this.state.steps &&
+      <ChatBot steps={this.state.steps} />
     )
   }
 }

@@ -1,11 +1,10 @@
 from rest_framework import serializers
-
 from .models import Message, Script
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'text', 'secondaryText', 'messageType', )
+        fields = ('id', 'message', 'secondaryText', 'messageType', )
 
 class ScriptSerializer(serializers.ModelSerializer):
     json_data = serializers.JSONField()

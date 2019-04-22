@@ -23,7 +23,7 @@ class ChatBuilder extends Component {
 
   state = {
     messageType: 'text',
-    text: '',
+    message: '',
     secondaryText: '',
     updateMessageId: null,
   }
@@ -31,38 +31,33 @@ class ChatBuilder extends Component {
   resetForm = () => {
     this.setState({
       messageType: '',
-      text: '',
+      message: '',
       secondaryText: '',
       updateMessageId: null
     });
-  }
-
-  generateScript = (messages) => {
-    console.log(messages);
-    this.props.generateScript(messages)
   }
 
   selectForEdit = (id) => {
     let message = this.props.messages[id];
     this.handleTypeSwitch(message.messageType);
     if (message.messageType === 'link' || 'image') {
-      this.setState({text: message.text, secondaryText: message.secondaryText, updateMessageId: id})
+      this.setState({message: message.text, secondaryText: message.secondaryText, updateMessageId: id})
     }
-    this.setState({text: message.text, updateMessageId: id});
+    this.setState({message: message.text, updateMessageId: id});
   }
 
   submitMessage = (e) => {
     e.preventDefault();
     if (this.state.updateMessageId === null) {
       if (this.state.messageType === 'link' || 'image') {
-        this.props.addDualMessage(this.state.text, this.state.secondaryText, this.state.messageType).then(this.resetForm);
+        this.props.addDualMessage(this.state.message, this.state.secondaryText, this.state.messageType).then(this.resetForm);
       } else {
-        this.props.addMessage(this.state.text, this.state.messageType).then(this.resetForm);
+        this.props.addMessage(this.state.message, this.state.messageType).then(this.resetForm);
       }
     } else if (this.state.messageType === 'link' || 'image') {
-        this.props.updateDualMessage(this.state.updateMessageId, this.state.text, this.state.secondaryText).then(this.resetForm);
+        this.props.updateDualMessage(this.state.updateMessageId, this.state.message, this.state.secondaryText).then(this.resetForm);
     } else {
-        this.props.updateMessage(this.state.updateMessageId, this.state.text).then(this.resetForm);
+        this.props.updateMessage(this.state.updateMessageId, this.state.message).then(this.resetForm);
     }
   }
 
@@ -71,15 +66,20 @@ class ChatBuilder extends Component {
   }
 
   handleTextMessage = (val) => {
-    this.setState({text: val})
+    this.setState({message: val})
   }
 
   handleDualMessage = (text, secondaryText) => {
     this.setState({
-      text: text,
+      message: text,
       secondaryText: secondaryText,
     })
     console.log(this.state);
+  }
+
+  generateScript = (messages) => {
+    console.log(messages);
+    this.props.generateScript(messages)
   }
 
   componentDidMount() {
@@ -114,14 +114,14 @@ class ChatBuilder extends Component {
               <tr>
                 <th>ID</th>
                 <th>Message Type</th>
-                <th>Text</th>
+                <th>Message</th>
                 <th>Secondary Text</th>
               </tr>
               {this.props.messages.map((message, id) => (
                 <tr key={`message_${id}`} >
                   <td>{message.id}</td>
                   <td>{message.messageType}</td>
-                  <td>{message.text}</td>
+                  <td>{message.message}</td>
                   <td>{message.secondaryText}</td>
                   <td><button onClick={() => this.selectForEdit(id)}>edit</button></td>
                   <td><button onClick={() => this.props.deleteMessage(id)}>delete</button></td>
@@ -143,17 +143,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addMessage: (messageType, text) => {
-      return dispatch(messages.addMessage(messageType, text));
+    addMessage: (messageType, message) => {
+      return dispatch(messages.addMessage(messageType, message));
     },
-    addDualMessage: (messageType, text, secondaryText) => {
-      return dispatch(messages.addDualMessage(messageType, text, secondaryText))
+    addDualMessage: (messageType, message, secondaryText) => {
+      return dispatch(messages.addDualMessage(messageType, message, secondaryText))
     },
-    updateMessage: (id, text) => {
-      return dispatch(messages.updateMessage(id, text));
+    updateMessage: (id, message) => {
+      return dispatch(messages.updateMessage(id, message));
     },
-    updateDualMessage: (id, text, secondaryText) => {
-      return dispatch(messages.updateMessage(id, text, secondaryText));
+    updateDualMessage: (id, message, secondaryText) => {
+      return dispatch(messages.updateMessage(id, message, secondaryText));
     },
     deleteMessage: (id) => {
       dispatch(messages.deleteMessage(id));
