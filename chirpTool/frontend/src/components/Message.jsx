@@ -41,7 +41,7 @@ class Message extends Component {
         return (
           <div>
             <p>
-            seniority question:
+            Seniority question:
             <input ref="newText" type="text" />
             </p>
             <input type="submit" value="Save" onClick={this.textMessage} />
