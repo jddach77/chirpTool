@@ -41,9 +41,9 @@ class ChatBuilder extends Component {
     let message = this.props.messages[id];
     this.handleTypeSwitch(message.messageType);
     if (message.messageType === 'link' || 'image') {
-      this.setState({message: message.text, secondaryText: message.secondaryText, updateMessageId: id})
+      this.setState({message: message.text, secondaryText: message.secondaryText, messageType: message.messageType, updateMessageId: id})
     }
-    this.setState({message: message.text, updateMessageId: id});
+    this.setState({message: message.text, messageType: message.messageType, updateMessageId: id});
   }
 
   submitMessage = (e) => {
